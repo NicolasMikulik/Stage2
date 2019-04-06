@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 public class Main extends Application{
 	
 		Stage window;
+		Scene scene;
 		Button button;
 		
 		public static void main(String[] args) {
@@ -20,50 +22,36 @@ public class Main extends Application{
 		public void start(Stage primaryStage) throws Exception {
 			window = primaryStage;
 			window.setTitle("thenewboston");
+		
+			//Checkboxes
+			CheckBox box1 = new CheckBox("Bacon");
+			CheckBox box2 = new CheckBox("Bacon");
+			box2.setSelected(true);
+	
+			//Button
+			button = new Button("Order Now!");
+			button.setOnAction(e -> handleOptions(box1, box2));
 			
-			GridPane grid = new GridPane();
-			grid.setPadding(new Insets(10, 10, 10, 10));
-			grid.setVgap(8);
-			grid.setHgap(10);
+			//Layout
+			VBox layout = new VBox(10);
+			layout.setPadding(new Insets(10,10,10,20));
+			layout.getChildren().addAll(box1, box2, button);
 			
-			//Name label
-			Label nameLabel = new Label("Username:");
-			GridPane.setConstraints(nameLabel, 0, 0);
-			
-			//Name input
-			TextField nameInput = new TextField("Bucky");
-			GridPane.setConstraints(nameInput, 1, 0);
-			
-			//Password label
-			Label passLabel = new Label("Password:");
-			GridPane.setConstraints(passLabel, 0, 1);
-
-			//Name input
-			TextField passInput = new TextField();
-			passInput.setPromptText("password");
-			GridPane.setConstraints(passInput, 1, 1);
-			
-			Button loginButton = new Button("Log In");
-			GridPane.setConstraints(loginButton, 1, 2);
-			
-			loginButton.setOnAction(e -> isInt(nameInput, nameInput.getText()));
-			
-			grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton);
-			
-			Scene scene = new Scene(grid, 300, 200);
+			scene = new Scene(layout, 300, 250);
 			window.setScene(scene);
 			window.show();
 		}
 		
-		private boolean isInt(TextField input, String message) {
-			try {
-				int age = Integer.parseInt(input.getText());
-				System.out.println("User is "+age);
-				return true;
-			} catch (NumberFormatException e) {
-				System.out.println("Error: "+message+" is not a number");
-				return false;
-			}
+		private void handleOptions(CheckBox box1, CheckBox box2) {
+			String message = "Users order:\n";
+			
+			if(box1.isSelected()) 
+				message += "Bacon\n";
+			
+			if(box2.isSelected()) 
+				message += "Tuna\n";
+			
+			System.out.println(message);
 		}
 }
 
