@@ -41,7 +41,7 @@ public class Main extends Application{
 			//Name input
 			TextField passInput = new TextField();
 			passInput.setPromptText("password");
-			GridPane.setConstraints(nameInput, 1, 1);
+			GridPane.setConstraints(passInput, 1, 1);
 			
 			Button loginButton = new Button("Log In");
 			GridPane.setConstraints(loginButton, 1, 2);
