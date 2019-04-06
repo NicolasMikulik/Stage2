@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -23,35 +24,32 @@ public class Main extends Application{
 			window = primaryStage;
 			window.setTitle("thenewboston");
 		
-			//Checkboxes
-			CheckBox box1 = new CheckBox("Bacon");
-			CheckBox box2 = new CheckBox("Bacon");
-			box2.setSelected(true);
+			//Choicebox
+			ChoiceBox<String> choiceBox = new ChoiceBox<>();
+			
+			choiceBox.getItems().add("Apples");
+			choiceBox.getItems().add("Bananas");
+			choiceBox.getItems().addAll("Bacon", "Ham", "Meatballs");
 	
+			choiceBox.setValue("Ham");
+			
 			//Button
-			button = new Button("Order Now!");
-			button.setOnAction(e -> handleOptions(box1, box2));
+			button = new Button("Click me");
+			button.setOnAction(e -> getChoice(choiceBox));
 			
 			//Layout
 			VBox layout = new VBox(10);
 			layout.setPadding(new Insets(10,10,10,20));
-			layout.getChildren().addAll(box1, box2, button);
+			layout.getChildren().addAll(choiceBox, button);
 			
 			scene = new Scene(layout, 300, 250);
 			window.setScene(scene);
 			window.show();
 		}
 		
-		private void handleOptions(CheckBox box1, CheckBox box2) {
-			String message = "Users order:\n";
-			
-			if(box1.isSelected()) 
-				message += "Bacon\n";
-			
-			if(box2.isSelected()) 
-				message += "Tuna\n";
-			
-			System.out.println(message);
+		private void getChoice(ChoiceBox<String> choiceBox) {
+			String choice = choiceBox.getValue();
+			System.out.println(choice);
 		}
 }
 
