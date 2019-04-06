@@ -46,11 +46,24 @@ public class Main extends Application{
 			Button loginButton = new Button("Log In");
 			GridPane.setConstraints(loginButton, 1, 2);
 			
+			loginButton.setOnAction(e -> isInt(nameInput, nameInput.getText()));
+			
 			grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton);
 			
 			Scene scene = new Scene(grid, 300, 200);
 			window.setScene(scene);
 			window.show();
+		}
+		
+		private boolean isInt(TextField input, String message) {
+			try {
+				int age = Integer.parseInt(input.getText());
+				System.out.println("User is "+age);
+				return true;
+			} catch (NumberFormatException e) {
+				System.out.println("Error: "+message+" is not a number");
+				return false;
+			}
 		}
 }
 
