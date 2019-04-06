@@ -30,8 +30,9 @@ public class Main extends Application{
 			choiceBox.getItems().add("Apples");
 			choiceBox.getItems().add("Bananas");
 			choiceBox.getItems().addAll("Bacon", "Ham", "Meatballs");
-	
 			choiceBox.setValue("Ham");
+			
+			choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> System.out.println(newValue));
 			
 			//Button
 			button = new Button("Click me");
