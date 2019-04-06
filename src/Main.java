@@ -17,20 +17,28 @@ public class Main extends Application{
 		public void start(Stage primaryStage) throws Exception {
 			window = primaryStage;
 			window.setTitle("thenewboston");
-			
-			button = new Button("Click Me");
-			button.setOnAction(e -> {
-				boolean result = ConfirmBox.display("Title of window", "Wow, this alert box rules!");
-				System.out.println(result);
+			window.setOnCloseRequest(e -> {
+				e.consume();
+				closeProgram();
 			});
+			
+			button = new Button("Close program");
+			button.setOnAction(e -> closeProgram());
 			
 			StackPane layout = new StackPane();
 			layout.getChildren().add(button);
-			Scene scene = new Scene(layout, 500, 250);
+			Scene scene = new Scene(layout, 300, 250);
 			window.setScene(scene);
 			window.show();
 		}
+		
+		private void closeProgram() {
+			boolean answer = ConfirmBox.display("Confirmation of closing", "Are you sure you want to close the program?");
+			if (answer)
+				window.close();
+		}
 }
+
 /*@Override
 public void handle(ActionEvent event) {
 	if (event.getSource() == button) {
