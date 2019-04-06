@@ -2,11 +2,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -18,7 +17,7 @@ public class Main extends Application{
 		Stage window;
 		Scene scene;
 		Button button;
-		ListView<String> listView;
+		TreeView<String> tree;
 		
 		public static void main(String[] args) {
 			launch(args);
@@ -29,35 +28,50 @@ public class Main extends Application{
 			window = primaryStage;
 			window.setTitle("ListView Demo");
 		
-			//ListView
-			listView = new ListView<>();
-			listView.getItems().addAll("Iron Man", "Titanic", "Contact", "Surrogates");
-			listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+			TreeItem<String> root, bucky, megan;
+			
+			//Root
+			root = new TreeItem<>();
+			root.setExpanded(true);
+			
+			//Bucky
+			bucky = makeBranch("Bucky", root);
+			makeBranch("thenewboston", bucky);
+			makeBranch("YouTube", bucky);
+			makeBranch("Chicken", bucky);
+			
+			//Megan
+			megan = makeBranch("Megan", root);
+			makeBranch("Sparkles", megan);
+			makeBranch("Makeup", megan);
+			
+			//Create tree
+			tree = new TreeView<>(root);
+			tree.setShowRoot(false);
+			tree.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->{
+				if(newValue != null)
+					System.out.println(newValue.getValue());
+			});
 			
 			//Button
 			button = new Button("Click me");
-			button.setOnAction(e -> buttonClicked());
 			
 			//Layout
-			VBox layout = new VBox(10);
-			layout.setPadding(new Insets(20,20,20,20));
-			layout.getChildren().addAll(listView, button);
-			
+			StackPane layout = new StackPane();
+			layout.getChildren().add(tree);
 			scene = new Scene(layout, 300, 250);
 			window.setScene(scene);
 			window.show();
 		}
 		
-		private void buttonClicked() {
-			String message = "";
-			ObservableList<String> movies;
-			movies = listView.getSelectionModel().getSelectedItems();
-			
-			for(String m: movies) {
-				message += m + "\n";
-			}
-			System.out.println(message);
+		//Create branches
+		public TreeItem<String> makeBranch(String title, TreeItem<String> parent){
+			TreeItem<String> item = new TreeItem<>(title);
+			item.setExpanded(true);
+			parent.getChildren().add(item);
+			return item;
 		}
+		
 }
 
 /*@Override
