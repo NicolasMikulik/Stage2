@@ -3,9 +3,11 @@ import javafx.scene.Scene;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -46,16 +48,55 @@ public class Main extends Application{
 			table.getColumns().add(priceColumn);
 			table.getColumns().add(quantityColumn);
 			
+			//Name input
+			TextField nameInput = new TextField();
+			nameInput.setPromptText("Name");
+			nameInput.setMinWidth(100);
+			
+			TextField priceInput = new TextField();
+			priceInput.setPromptText("Price");
+			
+			TextField quantityInput = new TextField();
+			quantityInput.setPromptText("Quantity");
+			
 			//Button
 			button = new Button("Click me");
+			Button addButton = new Button("Add");
+			addButton.setOnAction(e -> addButtonClicked(nameInput, priceInput, quantityInput));
+			Button deleteButton = new Button("Delete");
+			deleteButton.setOnAction(e -> deleteButtonClicked());
+			
+			HBox hBox = new HBox();
+			hBox.setPadding(new Insets(10,10,10,10));
+			hBox.setSpacing(10);
+			hBox.getChildren().addAll(nameInput, priceInput, quantityInput, addButton, deleteButton);
 			
 			//Layout
 			VBox vBox = new VBox();
-			vBox.getChildren().add(table);
+			vBox.getChildren().addAll(table, hBox);
 			
 			scene = new Scene(vBox);
 			window.setScene(scene);
 			window.show();
+		}
+	
+		public void addButtonClicked(TextField nameInput, TextField priceInput, TextField quantityInput) {
+			Product product = new Product();
+			product.setName(nameInput.getText());
+			product.setPrice(Double.parseDouble(priceInput.getText()));
+			product.setQuantity(Integer.parseInt(quantityInput.getText()));
+			table.getItems().add(product);
+			nameInput.clear();
+			priceInput.clear();
+			quantityInput.clear();
+		}
+		
+		public void deleteButtonClicked() {
+			ObservableList<Product> productSelected, allProducts;
+			allProducts = table.getItems();
+			productSelected = table.getSelectionModel().getSelectedItems();
+			
+			productSelected.forEach(allProducts::remove);
 		}
 		
 		public ObservableList<Product> getProduct(){
