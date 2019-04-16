@@ -1,18 +1,16 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
-import javafx.scene.control.*;
-import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
 
 public class Main extends Application{
 	
 		Stage window;
-		Scene scene;
 		Button button;
-		BorderPane layout;
 		
 		public static void main(String[] args) {
 			launch(args);
@@ -21,75 +19,38 @@ public class Main extends Application{
 		@Override
 		public void start(Stage primaryStage) throws Exception {
 			window = primaryStage;
-			window.setTitle("TableView Demo");
-		
-			Menu fileMenu = new Menu("File");
+			window.setTitle("thenewboston");
 			
-			MenuItem newFile = new MenuItem("New...");
-			newFile.setOnAction(e -> System.out.println("Create a new file..."));
-			fileMenu.getItems().add(newFile);
+			GridPane grid = new GridPane();
+			grid.setPadding(new Insets(10, 10, 10, 10));
+			grid.setVgap(8);
+			grid.setHgap(10);
+			
+			//Name label
+			Label nameLabel = new Label("Username:");
+			GridPane.setConstraints(nameLabel, 0, 0);
+			
+			//Name input
+			TextField nameInput = new TextField("Bucky");
+			GridPane.setConstraints(nameInput, 1, 0);
+			
+			//Password label
+			Label passLabel = new Label("Password:");
+			GridPane.setConstraints(passLabel, 0, 1);
 
-			fileMenu.getItems().add(new MenuItem("Open..."));
-			fileMenu.getItems().add(new MenuItem("Save..."));
-			fileMenu.getItems().add(new SeparatorMenuItem());
-			fileMenu.getItems().add(new MenuItem("Settings..."));
-			fileMenu.getItems().add(new SeparatorMenuItem());
-			fileMenu.getItems().add(new MenuItem("Exit..."));
+			//Name input
+			TextField passInput = new TextField();
+			passInput.setPromptText("password");
+			GridPane.setConstraints(passInput, 1, 1);
 			
-			Menu editMenu = new Menu("_Edit");
-			MenuItem paste = new MenuItem("Paste");
-			paste.setOnAction(e -> {
-				System.out.println("Disable paste button");
-				paste.setDisable(true);
-			});
+			Button loginButton = new Button("Log In");
+			GridPane.setConstraints(loginButton, 1, 2);
 			
-			editMenu.getItems().add(new MenuItem("Undo"));
-			editMenu.getItems().add(paste);
-			editMenu.getItems().add(new SeparatorMenuItem());
-			editMenu.getItems().add(new MenuItem("Copy"));
+			grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton);
 			
-
-			//Help menu
-			Menu helpMenu = new Menu("Help");
-			CheckMenuItem showLines = new CheckMenuItem("Show Line Numbers");
-			showLines.setOnAction(e -> {
-				if(showLines.isSelected())
-					System.out.println("Program will now display line numbers");
-				else
-					System.out.println("Hiding line numbers");
-			});
-			CheckMenuItem autoSave = new CheckMenuItem("Enable Autosave");
-			autoSave.setSelected(true);
-			helpMenu.getItems().addAll(showLines, autoSave);
-			
-			//Difficulty RadioMenuItem
-			Menu difficultyMenu = new Menu("Difficulty");
-			ToggleGroup difficultyToggle = new ToggleGroup();
-
-			RadioMenuItem easy = new RadioMenuItem("Easy");
-			RadioMenuItem medium = new RadioMenuItem("Medium");
-			RadioMenuItem hard = new RadioMenuItem("Hard");
-			
-			easy.setToggleGroup(difficultyToggle);
-			medium.setToggleGroup(difficultyToggle);
-			hard.setToggleGroup(difficultyToggle);
-			
-			difficultyMenu.getItems().addAll(easy, medium, hard);
-			
-			MenuBar menuBar = new MenuBar();
-			menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu, difficultyMenu);
-			
-			layout = new BorderPane();
-			layout.setTop(menuBar);
-			scene = new Scene(layout, 400, 300);
+			Scene scene = new Scene(grid, 300, 200);
+			scene.getStylesheets().add("Viper.css");
 			window.setScene(scene);
 			window.show();
 		}
 }
-
-/*@Override
-public void handle(ActionEvent event) {
-	if (event.getSource() == button) {
-		System.out.println("Mixing GUI with console.");
-	}
-}*/
