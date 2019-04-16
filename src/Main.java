@@ -48,8 +48,22 @@ public class Main extends Application{
 			editMenu.getItems().add(new SeparatorMenuItem());
 			editMenu.getItems().add(new MenuItem("Copy"));
 			
+
+			//Help menu
+			Menu helpMenu = new Menu("Help");
+			CheckMenuItem showLines = new CheckMenuItem("Show Line Numbers");
+			showLines.setOnAction(e -> {
+				if(showLines.isSelected())
+					System.out.println("Program will now display line numbers");
+				else
+					System.out.println("Hiding line numbers");
+			});
+			CheckMenuItem autoSave = new CheckMenuItem("Enable Autosave");
+			autoSave.setSelected(true);
+			helpMenu.getItems().addAll(showLines, autoSave);
+			
 			MenuBar menuBar = new MenuBar();
-			menuBar.getMenus().addAll(fileMenu, editMenu);
+			menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 			
 			layout = new BorderPane();
 			layout.setTop(menuBar);
