@@ -21,40 +21,19 @@ public class Main extends Application{
 			window = primaryStage;
 			window.setTitle("thenewboston");
 			
-			GridPane grid = new GridPane();
-			grid.setPadding(new Insets(10, 10, 10, 10));
-			grid.setVgap(8);
-			grid.setHgap(10);
+			Person bucky = new Person();
+			bucky.firstNameProperty().addListener((v, oldValue, newValue) ->{
+			System.out.println("Name changed to "+newValue);
+			System.out.println("firstNameProperty() "+bucky.firstNameProperty());
+			System.out.println("getFirstName() "+bucky.getFirstName());
+			});
 			
-			//Name label
-			Label nameLabel = new Label("Username:");
-			GridPane.setConstraints(nameLabel, 0, 0);
+			button = new Button("Submit");
+			button.setOnAction(e -> bucky.setFirstName("Porky"));
 			
-			//Name input
-			TextField nameInput = new TextField("Bucky");
-			GridPane.setConstraints(nameInput, 1, 0);
-			
-			//Password label
-			Label passLabel = new Label("Password:");
-			passLabel.setId("bold-label");
-			GridPane.setConstraints(passLabel, 0, 1);
-
-			//Name input
-			TextField passInput = new TextField();
-			passInput.setPromptText("password");
-			GridPane.setConstraints(passInput, 1, 1);
-			
-			Button loginButton = new Button("Log In");
-			GridPane.setConstraints(loginButton, 1, 2);
-			
-			Button signUpButton = new Button("Sign Up");
-			signUpButton.getStyleClass().add("button-blue");
-			GridPane.setConstraints(signUpButton, 1, 3);
-			
-			grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton, signUpButton);
-			
-			Scene scene = new Scene(grid, 300, 200);
-			scene.getStylesheets().add("Viper.css");
+			StackPane layout = new StackPane();
+			layout.getChildren().add(button);
+			Scene scene = new Scene(layout, 300, 250);
 			window.setScene(scene);
 			window.show();
 		}
